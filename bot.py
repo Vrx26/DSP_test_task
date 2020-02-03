@@ -1,6 +1,6 @@
 import telebot
 import os_utils
-
+from db_wrapper import conn
 bot = telebot.TeleBot('1078143420:AAGI37Uu6KkJQE-o-wDQOA3a6pfL6cSwFzg')
 
 

@@ -4,3 +4,5 @@ audio/*
 photo/*
 ffmpeg
 .idea/*
+bot.db
+/__pycache__/
