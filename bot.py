@@ -1,7 +1,7 @@
 import telebot
 import os_utils
 from db_wrapper import session, Voice, Photo, get_or_create_user
-bot = telebot.TeleBot('TOKEN')
+bot = telebot.TeleBot('1078143420:AAGI37Uu6KkJQE-o-wDQOA3a6pfL6cSwFzg')
 
 
 @bot.message_handler(content_types=['voice'])
