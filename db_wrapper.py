@@ -1,5 +1,6 @@
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Column, String, Integer, ForeignKey, Text
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -14,17 +15,29 @@ class User(Base):
 
 class Voice(Base):
     __tablename__ = 'voice'
-    id = Column(Integer, primary_key=True)
+    id = Column(String, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
     path = Column(String)
-    author_id = Column(String, ForeignKey(User.id))
+    user = relationship("User")
 
 
 class Photo(Base):
     __tablename__ = 'photo'
-    id = Column(Integer, primary_key=True)
+    id = Column(String, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
     path = Column(String)
-    author_id = Column(String, ForeignKey(User.id))
+    user = relationship("User")
 
+
+def get_or_create_user(session, user_id, username):
+    user = session.query(User).filter_by(id=user_id).first()
+    if user:
+        return user
+    else:
+        user = User(id=user_id, name=username)
+        session.add(user)
+        return user
 
 Base.metadata.create_all(engine)
-conn = engine.connect()
+Session = sessionmaker(bind=engine)
+session = Session()
