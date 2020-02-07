@@ -1,7 +1,14 @@
 import telebot
+import os
 import os_utils
 from db_wrapper import session, Voice, Photo, get_or_create_user
-bot = telebot.TeleBot('1078143420:AAGI37Uu6KkJQE-o-wDQOA3a6pfL6cSwFzg')
+bot = telebot.TeleBot('TOKEN')
+
+# initial setup
+if not (os.path.isdir(os.path.join('audio'))):
+    os.mkdir(os.path.join('audio'))
+if not (os.path.isdir(os.path.join('photo'))):
+    os.mkdir(os.path.join('photo'))
 
 
 @bot.message_handler(content_types=['voice'])
