@@ -18,7 +18,8 @@ def save_file(bot, file_id, type, user_id):
     elif type == 'photo':
         if check_photo(save_path) is False:
             os.remove(save_path)
-    return save_path
+            return (False, '')
+    return (True, save_path)
 
 
 def convert_audio(path):

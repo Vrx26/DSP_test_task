@@ -17,7 +17,7 @@ def process_audio(message):
     user_id, username = message.from_user.id, message.from_user.username
 
     get_or_create_user(session, user_id, username)
-    path = os_utils.save_file(bot, voice_id, 'audio', str(user_id))
+    _, path = os_utils.save_file(bot, voice_id, 'audio', str(user_id))
 
     session.add(Voice(id=voice_id, path=path, user_id=user_id))
     session.commit()
@@ -30,11 +30,13 @@ def process_photo(message):
     user_id, username = message.from_user.id, message.from_user.username
 
     get_or_create_user(session, user_id, username)
-    path = os_utils.save_file(bot, photo_id, 'photo', str(user_id))
-
-    session.add(Photo(id=photo_id, path=path, user_id=user_id))
-    session.commit()
-    bot.reply_to(message, 'photo saved')
+    status, path = os_utils.save_file(bot, photo_id, 'photo', str(user_id))
+    if status:
+        session.add(Photo(id=photo_id, path=path, user_id=user_id))
+        session.commit()
+        bot.reply_to(message, 'photo saved in database!')
+    else:
+        bot.reply_to(message, 'there is no face on photo!')
 
 
 bot.polling()
